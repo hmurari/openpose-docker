@@ -5,7 +5,9 @@ FROM nvidia/cuda:10.0-cudnn7-devel
 RUN apt-get update && \
 DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
 python3-dev python3-pip git g++ wget make libprotobuf-dev protobuf-compiler libopencv-dev \
-libgoogle-glog-dev libboost-all-dev libcaffe-cuda-dev libhdf5-dev libatlas-base-dev python3-setuptools
+libgoogle-glog-dev libboost-all-dev libcaffe-cuda-dev libhdf5-dev libatlas-base-dev python3-setuptools \
+vim 
+
 
 #for python api
 RUN pip3 install scikit-build
@@ -27,3 +29,15 @@ RUN git clone https://github.com/CMU-Perceptual-Computing-Lab/openpose.git .
 WORKDIR /openpose/build
 RUN cmake -DBUILD_PYTHON=ON .. && make -j `nproc`
 WORKDIR /openpose
+
+# Build and install Openpose python
+WORKDIR /openpose/build/python/openpose
+RUN make install
+RUN cp ./pyopenpose.cpython-36m-x86_64-linux-gnu.so /usr/local/lib/python3.6/dist-packages
+WORKDIR /usr/local/lib/python3.6/dist-packages
+RUN ln -s pyopenpose.cpython-36m-x86_64-linux-gnu.so pyopenpose
+ENV LD_LIBRARY_PATH="/usr/local/lib/python3.6/dist-packages:${LD_LIBRARY_PATH}"
+
+# Pull test code
+WORKDIR /openpose
+RUN git clone https://github.com/hmurari/pose2
