@@ -6,12 +6,12 @@ RUN apt-get update && \
 DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
 python3-dev python3-pip git g++ wget make libprotobuf-dev protobuf-compiler libopencv-dev \
 libgoogle-glog-dev libboost-all-dev libcaffe-cuda-dev libhdf5-dev libatlas-base-dev python3-setuptools \
-vim 
+vim libgtk2.0-dev 
 
 
 #for python api
-RUN pip3 install scikit-build
 RUN pip3 install cmake
+RUN pip3 install scikit-build
 RUN pip3 install numpy
 RUN pip3 install opencv-python 
 
@@ -27,7 +27,7 @@ RUN git clone https://github.com/CMU-Perceptual-Computing-Lab/openpose.git .
 
 #build it
 WORKDIR /openpose/build
-RUN cmake -DBUILD_PYTHON=ON .. && make -j `nproc`
+RUN cmake -DBUILD_PYTHON=ON -DWITH_GTK=ON .. && make -j `nproc`
 WORKDIR /openpose
 
 # Build and install Openpose python
