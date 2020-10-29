@@ -34,7 +34,7 @@ RUN git clone https://github.com/CMU-Perceptual-Computing-Lab/openpose.git .
 
 #build it
 WORKDIR /openpose/build
-RUN cmake -DBUILD_PYTHON=ON -DWITH_GTK=ON .. && make -j `nproc`
+RUN cmake -DBUILD_PYTHON=ON -DWITH_GTK=ON -DUSE_CUDNN=ON  .. && make -j `nproc`
 WORKDIR /openpose
 
 # Build and install Openpose python
@@ -48,3 +48,11 @@ ENV LD_LIBRARY_PATH="/usr/local/lib/python3.6/dist-packages:${LD_LIBRARY_PATH}"
 # Pull test code
 WORKDIR /openpose
 RUN git clone https://github.com/hmurari/pose2
+
+# Pull Examples code.
+WORKDIR /openpose/examples
+RUN git clone https://github.com/hmurari/openpose-examples.git
+
+WORKDIR /openpose/examples/openpose-examples
+
+
