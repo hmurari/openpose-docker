@@ -45,6 +45,11 @@ WORKDIR /usr/local/lib/python3.6/dist-packages
 RUN ln -s pyopenpose.cpython-36m-x86_64-linux-gnu.so pyopenpose
 ENV LD_LIBRARY_PATH="/usr/local/lib/python3.6/dist-packages:${LD_LIBRARY_PATH}"
 
+# Download the model files.
+WORKDIR /openpose/models
+RUN chmod +x ./getModels.sh
+RUN ./getModels.sh
+
 # Pull test code
 WORKDIR /openpose
 RUN git clone https://github.com/hmurari/pose2
