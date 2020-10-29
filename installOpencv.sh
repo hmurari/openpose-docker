@@ -53,7 +53,6 @@ apt -y install libgoogle-glog-dev libgflags-dev
 apt -y install libgphoto2-dev libeigen3-dev libhdf5-dev doxygen
 
 apt -y install python3-dev python3-pip
--H pip3 install -U pip numpy
 apt -y install python3-testresources
 
 # now install python libraries within this virtual environment
@@ -102,7 +101,6 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
         -D WITH_QT=OFF \
         -D WITH_OPENGL=ON \
         -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
-        -D PYTHON_EXECUTABLE=/usr/bin/python3 \
         -D BUILD_EXAMPLES=ON ..
 
 make -j$(nproc)
