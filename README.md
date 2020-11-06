@@ -23,6 +23,7 @@ cd openpose-docker
 docker built -t openpose .
 
 # Run the Docker container (share display, ipc, webcam with container)
+sudo xhost +si:localuser:root
 docker run --gpus all -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix --ipc=host --device=/dev/video0:/dev/video0 -it openpose:latest /bin/bash
 
 # Run Openpose body detection from webcam video
@@ -35,6 +36,7 @@ python3 001_body_from_camera.py
 docker pull hmurari/openpose-docker:latest
 
 # Run container
+sudo xhost +si:localuser:root
 docker run --gpus all -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix --ipc=host --device=/dev/video0:/dev/video0 -it openpose:latest /bin/bash
 
 # Run Openpose body detection from webcam video
