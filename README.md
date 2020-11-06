@@ -1,10 +1,9 @@
 # openpose-docker
 A docker build file for CMU openpose with Python API support. Tested this on a AMD Laptop with NVIDIA GEFORCE GPU (Nov 2020).
 
-- This should work with any of the NVIDIA latest GPUs.
-- This assumes CUDA 10.0 or higher and CuDNN 7.5 or higher.
+This should work with most of the recent NVIDIA latest GPUs.
 
-The original work was bassed on: 
+The original Dockerfile was bassed on:
 https://hub.docker.com/r/cwaffles/openpose
 
 ## Requirements
@@ -14,20 +13,34 @@ https://hub.docker.com/r/cwaffles/openpose
 - A web-camera connected to your host (this assumes /dev/video0 is exported)
 
 ## Example
-### Get the Dockerfile to your machine. 
-`git clone https://github.com/hmurari/openpose-docker.git`
-`cd openpose-docker`
+### Build the Dockerfile locally and run it
+```
+# Clone the Dockerfile repository
+git clone https://github.com/hmurari/openpose-docker.git
 
-### Build container locally
-`docker built -t openpose .`
+# Build Docker container locally
+cd openpose-docker
+docker built -t openpose .
 
-### Use a prebuilt container
-`TBD`
- 
-### Run the container
-`docker run --gpus all -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix --ipc=host --device=/dev/video0:/dev/video0 -it openpose:latest /bin/bash`
+# Run the Docker container (share display, ipc, webcam with container)
+docker run --gpus all -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix --ipc=host --device=/dev/video0:/dev/video0 -it openpose:latest /bin/bash
 
-### Run body keypoints detection from web-cam video
-`python3 001_body_from_camera.py`
+# Run Openpose body detection from webcam video
+python3 001_body_from_camera.py
+```
+
+### Run the container from dockerhub.
+```
+# Pull Docker image
+docker pull hmurari/openpose-docker:latest
+
+# Run container
+docker run --gpus all -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix --ipc=host --device=/dev/video0:/dev/video0 -it openpose:latest /bin/bash
+
+# Run Openpose body detection from webcam video
+python3 001_body_from_camera.py
+```
+
+
 
 
